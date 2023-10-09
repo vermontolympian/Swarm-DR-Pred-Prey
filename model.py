@@ -6,8 +6,8 @@ import time
 # Model Parameters
 a = 1      # Prey-Prey Linear Long-Range Attraction Gain
 b = 0.2    # Prey-Predator Repulsion Strength
-c = 2.5    # Pred-Prey Attraction Strength
-d = 0    # Pred-Pred Short Range Repulsion Gain
+c = 0.8    # Pred-Prey Attraction Strength
+d = 0.5    # Pred-Pred Short Range Repulsion Gain
 e = 1      # Pred-Pred Linear Long-Range Attraction Gain
 p = 3      # Power law for Predator-Prey Interactions
 
@@ -96,8 +96,8 @@ def run_model():
             d_pd_py_norm = np.power(np.linalg.norm(d_pd_py, axis=1), p).reshape(-1,1)
             F_pred_prey[j,:] = c*np.mean(d_pd_py/d_pd_py_norm, axis=0)
             
-            # Force between this Prey and All other prey in the X and Y (if more than one predator)
-            if M > 0:
+            # Force between this Pred and All other Pred in the X and Y (if more than one predator)
+            if M > 1:
                 d_pd_pd = pred_pos[j,:] - pred_pos[np.arange(M)!=j, :]    #(N-1) x 1 array of x distance from prey j to all other prey 
                 d_pd_pd_norm = np.power(np.linalg.norm(d_pd_pd, axis=1), 2).reshape(-1,1)
                 F_pred_pred[j,:] = np.mean((d*d_pd_pd/d_pd_pd_norm)-(e*d_pd_pd), axis=0)
@@ -149,11 +149,11 @@ def run_model():
         # Save the animation as an mp4 file
         print(f"Exporting Animation: {len(frames)} frames @ {fps} fps")
         export_start = time.time()
-        plt.show()
-        anim.save('media/animation.mp4', writer='ffmpeg', fps=fps, dpi=100)
+        # plt.show()
+        anim.save('media/animation.mp4', writer='ffmpeg', fps=fps, dpi=100) # TODO: Try GIF file format
         print(f"Export Finished, took {time.time()-export_start} sec")
   
 
 if __name__ == "__main__":
-    np.random.seed(69)
+    np.random.seed(80)
     run_model()
