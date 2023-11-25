@@ -15,21 +15,21 @@ vis_params = {
     "fps": 24,
     "ticks_per_frame": 6,
     "show_animation": False,
-    "export_animation": False,
+    "export_animation": True,
     "animation_path": "models/animation.mp4",
-    "animation_codec": "h264_videotoolbox"
+    "animation_codec": "h264"
 }
 
 
 if __name__ == "__main__":
-    with open('data/predator_caught_prey.csv', 'w', newline='') as csvfile:
+    with open('predator_caught_prey-DRTest5.csv', 'w', newline='') as csvfile:
         fieldnames = ['M', 'c', 'd', 'e', 'caught', 'behavior']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         permutations = []
-        for M in [2, 3, 4, 5]:
-            for d, e in [(1.1, 0.4), (1.0, 0.5), (0.9, 0.6), (0.8, 0.7), (0.7, 0.8), (0.6, 0.9), (0.5, 1.0), (0.4, 1.1)]:
-                for c in [0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80]:
+        for M in [2, 3, 4]:
+            for d, e in [(0.45, 0.7)]: #[(0.7, 0.7), (0.65, 0.7), (0.6, 0.7), (0.55, 0.7), (0.5, 0.7)]:   # [(1.1, 0.7), (1.0, 0.7), (0.9, 0.7), (0.8, 0.7), (0.7, 0.7), (0.6, 0.7), (0.5, 0.7), (0.4, 0.7)]:
+                for c in [0.4, 0.5, 0.6, 0.7]:#[0.4, 0.8, 0.15, 1.5, 2.5]:   [0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80]:
                     permutations.append((M, d, e, c))
 
         avg_time = 0
@@ -41,7 +41,7 @@ if __name__ == "__main__":
             c = p[3]
             start_time = time.time()
             np.random.seed(0)
-            vis_params['animation_path'] = f"media/MultiPredatorNoInteraction_ConstDt/Replication_M{M}_c{c}.mp4"
+            vis_params['animation_path'] = f"media/DRTest5/Replication_M{M}_c{c}_d{d}_e{e}.mp4"
             caught = run_model(
                 a=1,        # Prey-Prey Linear Long-Range Attraction Gain
                 b=0.2,      # Prey-Predator Repulsion Strength

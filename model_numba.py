@@ -275,7 +275,9 @@ def run_model( a, b, c, d, e, p, N, M, sim_params=default_sim, vis_params=defaul
     # Initialize Predator Velocities
     pred_v = np.random.rand(M, 2)
 
-    # Initialize Accumulators
+    # Create the Figure\
+    
+        
     all_prey_pos = np.zeros((T,N,2))
     all_prey_v = np.zeros((T,N,2))
     all_pred_pos = np.zeros((T,M,2))
