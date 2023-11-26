@@ -8,7 +8,7 @@ parse_behavior = True
 parse_catching = True
 
 if __name__ == '__main__':
-    with open('predator_caught_prey-DRTest3.csv', 'r', newline='') as csvfile:
+    with open('predator_caught_prey-DRTest5.csv', 'r', newline='') as csvfile:
         # Initialize CSV Reader
         fieldnames = ['M', 'c', 'd', 'e']
         if parse_catching:
@@ -17,17 +17,17 @@ if __name__ == '__main__':
             fieldnames.append('behavior')
         reader = csv.DictReader(csvfile, fieldnames=fieldnames)
         # Values for each subplot
-        m_values = np.array([2, 3, 4])
-        m_labels = np.array(['2', '3', '4'])
+        m_values = np.array([2, 3, 4, 5])
+        m_labels = np.array(['2', '3', '4', '5'])
         # X Values/Labels
-        c_values = np.array([0.4, 0.5, 0.6, 0.7])
-        c_labels = ['0.4', '0.5', '0.6', '0.7']
+        c_values = np.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
+        c_labels = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1']
         # Y Values/Labels
-        de_values = np.array([0.7/0.7, 0.65/0.7, 0.6/0.7, 0.55/0.7, 0.5/0.7, 0.45/0.7])
-        de_labels = ['0.7, 0.7', '0.65, 0.7', '0.6, 0.7', '0.55, 0.7', '0.5, 0.7', '0.45/0.7']
+        de_values = np.array([0.5/0.4, 0.5/0.5, 0.5/0.6, 0.5/0.7, 0.5/0.8, 0.5/0.9, 0.5/1, 0.5/1.1])
+        de_labels = ['0.5, 0.4', '0.5, 0.5', '0.5, 0.6', '0.5, 0.7', '0.5, 0.8', '0.5/0.9', '0.5/1', '0.5/1.1']
         # Values for Heatmap
-        behavior_labels = ["Stable Confusion",
-                           "Unstable Confusion", "Coordinated Circling", "Chaotic Confusion"]
+        behavior_labels = ["Escaping", "Stable",
+                           "Unstable", "Circling", "Chaotic"]
         behaviors = np.zeros(
             (de_values.size, c_values.size, m_values.size,), dtype=np.int16)
         catching = np.zeros((de_values.size, c_values.size,
@@ -52,8 +52,8 @@ if __name__ == '__main__':
             i += 1
         # Plot heatmaps
         if parse_behavior:
-            fig, axs = plt.subplots(2, 3, sharex='col', sharey='row')
-            fig.suptitle("Flocking Behavior for d,e values - DR Test 3")
+            fig, axs = plt.subplots(2, 4, sharex='col', sharey='row')
+            fig.suptitle("Flocking Behavior for d,e values - DR Test 5")
             min_behavior = np.min(behaviors)
             max_behavior = np.max(behaviors)+1
             cmap = sns.color_palette(palette="Spectral", n_colors=int(max_behavior-min_behavior))
@@ -71,10 +71,10 @@ if __name__ == '__main__':
             for i in range(int(max_behavior-min_behavior)):
                 b_handle = mpatches.Patch(color=cmap[i], label=behavior_labels[i])
                 handles.append(b_handle)
-            fig.legend(handles=handles, loc='lower center', ncols=2)
+            fig.legend(handles=handles, loc='lower center', ncols=5)
 
         if parse_catching:
-            fig2, axs2 = plt.subplots(2, 3, sharex='col', sharey='row')
+            fig2, axs2 = plt.subplots(2, 4, sharex='col', sharey='row')
             fig2.suptitle("Catching Behavior for d,e values - DR Test 3")
             cmap2 = sns.color_palette("blend:#C00,#0C0", n_colors=2)
             for i, ax in enumerate(axs2.flatten().tolist()):

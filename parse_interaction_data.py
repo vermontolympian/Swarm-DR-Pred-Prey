@@ -8,7 +8,7 @@ parse_behavior = True
 parse_catching = True
 
 if __name__ == '__main__':
-    with open('data/MultiPredatorInteraction_Characterization_Round3.csv', 'r', newline='') as csvfile:
+    with open('predator_caught_prey-DRTest5.csv', 'r', newline='') as csvfile:
         # Intialize CSV Reader
         fieldnames = ['M', 'c', 'd', 'e']
         if parse_catching:
@@ -20,16 +20,16 @@ if __name__ == '__main__':
         m_values = np.array([2, 3, 4, 5])
         m_labels = np.array(['2', '3', '4', '5'])
         # X Values/Labels
-        c_values = np.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
+        c_values = np.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
         c_labels = [str(c) for c in c_values]
         # Y Values/Labels
-        de_values = np.array([1.1/0.4, 1.0/0.5, 0.9/0.6, 0.8/0.7,
-                              0.7/0.8, 0.6/0.9, 0.5/1.0, 0.4/1.1])
-        de_labels = ['1.1, 0.4', '1.0, 0.5', '0.9, 0.6', '0.8, 0.7',
-                     '0.7, 0.8', '0.6, 0.9', '0.5, 1.0', '0.4, 1.1']
+        de_values = np.array([0.5/0.4, 0.5/0.5, 0.5/0.6, 0.5/0.7,
+                              0.5/0.8, 0.5/0.9, 0.5/1.0, 0.5/1.1])
+        de_labels = ['0.5, 0.4', '0.5, 0.5', '0.5, 0.6', '0.5, 0.7',
+                     '0.5, 0.8', '0.5, 0.9', '0.5, 1.0', '0.5, 1.1']
         # Values for Heatmap
-        behavior_labels = ["Escaping", "Stable Confusion",
-                           "Unstable Confusion", "Coordinated Circling", "Chaotic Confusion"]
+        behavior_labels = ["Escaping", "Stable",
+                           "Unstable", "Circling", "Chaotic"]
         behaviors = np.zeros((m_values.size, de_values.size, c_values.size,),
                              dtype=np.int16)
         catching = np.zeros((m_values.size, de_values.size, c_values.size,),
