@@ -27,8 +27,8 @@ def norm(array, axis=0):
 
 
 if __name__ == "__main__":
-    with open('prey-speed-DRTest6.csv', 'w', newline='') as csvfile:
-        fieldnames = ['M', 'c', 'd', 'e', 'vel1', 'vel2', 'vel3', 'vel4', 'ang1', 'ang2', 'ang3', 'ang4']
+    with (open('prey-speed-DRTest6.csv', 'w', newline='') as csvfile):
+        fieldnames = ['M', 'c', 'd', 'e', 'caught']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         permutations = []
@@ -36,6 +36,11 @@ if __name__ == "__main__":
             for d, e in [(0.5, 0.4), (0.5, 0.5), (0.5, 0.6), (0.5, 0.7), (0.5, 0.8), (0.5, 0.9), (0.5, 1.0), (0.5, 1.1)]:
                 for c in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]:
                     permutations.append((M, d, e, c))
+
+        # for M in [2]:
+        #     for d, e in [(0.5, 0.4)]:
+        #         for c in [0.1, 1]:
+        #             permutations.append((M, d, e, c))
 
         avg_time = 0
         run_start = time.time()
@@ -66,25 +71,20 @@ if __name__ == "__main__":
                 'c': c,
                 'd': d,
                 'e': e,
-                'vel1': norm(all_prey_v[499, 0, :]),
-                'vel2': norm(all_prey_v[999, 0, :]),
-                'vel3': norm(all_prey_v[1499, 0, :]),
-                'vel4': norm(all_prey_v[1999, 0, :]),
-                'ang1': np.arctan2(all_prey_v[499, 0, 1], all_prey_v[499, 0, 0]),
-                'ang2': np.arctan2(all_prey_v[999, 0, 1], all_prey_v[999, 0, 0]),
-                'ang3': np.arctan2(all_prey_v[1499, 0, 1], all_prey_v[1499, 0, 0]),
-                'ang4': np.arctan2(all_prey_v[1999, 0, 1], all_prey_v[1999, 0, 0])
+                'caught': int(caught)
             })
 
             vel = norm(all_prey_v[:, 0, :], axis=1)
             ang = np.arctan2(all_prey_v[:, 0, 1], all_prey_v[:, 0, 0])
 
-            fig = plt.scatter(vel, ang)
+            fig, ax = plt.subplots(figsize=(9, 6))
+            ax.scatter(vel, ang)
             plt.title(f"M{M}_c{c}_d{d}_e{e}")
-            plt.savefig(f"SpeedGraphs/M{M}_c{c}_d{d}_e{e}.png")
+            ax.set_xscale("log")
+            plt.xlabel('Linear Velocity')
+            plt.ylabel('Angular Position (Rad)')
+            plt.savefig(f"SpeedGraphsLog/M{M}_c{c}_d{d}_e{e}.png", dpi=200)
             # plt.show()
-
-
 
             this_time = int(time.time() - start_time)
             avg_time = int((avg_time*i/(i+1)) + (this_time/(i+1)))
