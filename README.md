@@ -1,5 +1,7 @@
 # Predator-Prey-Swarm-Project
 
+Swarm robotics is an emerging field that aims to develop autonomous systems capable of performing complex tasks in uncertain environments in a distributed manner. Understanding the interactions between agents in a swarm and the environment the agent is in is critical for designing effective swarm robotics systems. Many academics turn to nature for novel ideas, and the field of swarm robotics is no exception. Swarming behaviors can be seen in many different corners of the Animal Kingdom, from sheep herding, to schools of fish. In this paper, we investigate the effect of predator-prey interactions on swarm robotics behavior through simulation, which allows for a controlled study of different parameters that would be difficult to replicate in real-world scenarios. By performing a comprehensive mathematical analysis on our simulation results, we are able to generate phase diagrams that describe the emerging behaviors in discrete regions that describe the interactions between multiple predators and prey.
+
 ## Behavior Codes:
 ### `0` = Escaping
 
