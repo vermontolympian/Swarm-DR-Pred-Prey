@@ -3,6 +3,7 @@ import time
 import datetime
 import numpy as np
 from model_numba import run_model
+import matplotlib.pyplot as plt
 
 sim_params = {
     "T": 2000,
@@ -15,15 +16,19 @@ vis_params = {
     "fps": 24,
     "ticks_per_frame": 6,
     "show_animation": False,
-    "export_animation": True,
+    "export_animation": False,
     "animation_path": "models/animation.mp4",
     "animation_codec": "h264"
 }
 
+def norm(array, axis=0):
+    return np.sqrt(np.sum(np.power(array, 2), axis=axis))
+
+
 
 if __name__ == "__main__":
     with open('prey-speed-DRTest6.csv', 'w', newline='') as csvfile:
-        fieldnames = ['M', 'c', 'd', 'e', 'caught', 'behavior']
+        fieldnames = ['M', 'c', 'd', 'e', 'vel1', 'vel2', 'vel3', 'vel4', 'ang1', 'ang2', 'ang3', 'ang4']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         permutations = []
@@ -41,7 +46,7 @@ if __name__ == "__main__":
             c = p[3]
             start_time = time.time()
             np.random.seed(0)
-            vis_params['animation_path'] = f"media/DRTest5/Replication_M{M}_c{c}_d{d}_e{e}.mp4"
+            vis_params['animation_path'] = f"media/DRTest6/Replication_M{M}_c{c}_d{d}_e{e}.mp4"
             caught, all_prey_v = run_model(
                 a=1,        # Prey-Prey Linear Long-Range Attraction Gain
                 b=0.2,      # Prey-Predator Repulsion Strength
@@ -61,8 +66,26 @@ if __name__ == "__main__":
                 'c': c,
                 'd': d,
                 'e': e,
-                'caught': int(caught)
+                'vel1': norm(all_prey_v[499, 0, :]),
+                'vel2': norm(all_prey_v[999, 0, :]),
+                'vel3': norm(all_prey_v[1499, 0, :]),
+                'vel4': norm(all_prey_v[1999, 0, :]),
+                'ang1': np.arctan2(all_prey_v[499, 0, 1], all_prey_v[499, 0, 0]),
+                'ang2': np.arctan2(all_prey_v[999, 0, 1], all_prey_v[999, 0, 0]),
+                'ang3': np.arctan2(all_prey_v[1499, 0, 1], all_prey_v[1499, 0, 0]),
+                'ang4': np.arctan2(all_prey_v[1999, 0, 1], all_prey_v[1999, 0, 0])
             })
+
+            vel = norm(all_prey_v[:, 0, :], axis=1)
+            ang = np.arctan2(all_prey_v[:, 0, 1], all_prey_v[:, 0, 0])
+
+            fig = plt.scatter(vel, ang)
+            plt.title(f"M{M}_c{c}_d{d}_e{e}")
+            plt.savefig(f"SpeedGraphs/M{M}_c{c}_d{d}_e{e}.png")
+            # plt.show()
+
+
+
             this_time = int(time.time() - start_time)
             avg_time = int((avg_time*i/(i+1)) + (this_time/(i+1)))
             time_elapsed = int(time.time()-run_start)

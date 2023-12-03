@@ -326,5 +326,5 @@ def run_model( a, b, c, d, e, p, N, M, sim_params=default_sim, vis_params=defaul
     if export_animation or show_animation:
         render_animation(all_prey_pos, all_prey_v, all_pred_pos, all_pred_v, sim_params, vis_params)
             
-    return pred_caught_prey     
+    return pred_caught_prey, all_prey_v
     
